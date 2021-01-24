@@ -8,19 +8,20 @@ export const authSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      const currentUser = action.payload;
-      if (!currentUser) {
-        state.user = currentUser;
-      } else {
-        const user = {
-          name: currentUser.displayName,
-          email: currentUser.email,
-          photoUrl: currentUser.photoUrl,
-          emailVerified: currentUser.email,
-          uid: currentUser.uid,
-        };
-        state.user = user;
-      }
+      state.user = action.payload;
+      // const currentUser = action.payload;
+      // if (!currentUser) {
+      //   state.user = currentUser;
+      // } else {
+      //   const user = {
+      //     name: currentUser.displayName,
+      //     email: currentUser.email,
+      //     photoUrl: currentUser.photoUrl,
+      //     emailVerified: currentUser.email,
+      //     uid: currentUser.uid,
+      //   };
+      //   state.user = user;
+      // }
     },
     setToken: (state, action) => {
       state.token = action.payload;

@@ -1,5 +1,5 @@
 // Import FirebaseAuth and firebase.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
@@ -31,14 +31,24 @@ function SignInScreen() {
         const currentUser = firebase.auth().currentUser;
         if (currentUser) {
           const token = firebase.auth().currentUser.getIdToken();
+          const {
+            displayName,
+            email,
+            photoURL,
+            emailVerified,
+            uid,
+          } = currentUser;
           dispatch(setToken(token.i));
-          dispatch(setUser(currentUser));
+          dispatch(
+            setUser({ displayName, email, photoURL, emailVerified, uid })
+          );
         } else {
           dispatch(setToken(null));
           dispatch(setUser(currentUser));
         }
       });
     return () => unregisterAuthObserver();
+    //eslint-disable-next-line
   }, []);
 
   if (!user) {
