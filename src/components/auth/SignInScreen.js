@@ -1,0 +1,39 @@
+// Import FirebaseAuth and firebase.
+import React, { useEffect } from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase/app';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, fetchUser } from '../../app/reducers/authSlice';
+import { Redirect } from 'react-router-dom';
+import { uiConfig } from '../../config/firebase';
+
+function SignInScreen() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        dispatch(fetchUser());
+      });
+    return () => unregisterAuthObserver();
+    //eslint-disable-next-line
+  }, []);
+
+  if (!user) {
+    return (
+      <div>
+        <h1>My App</h1>
+        <p>Please sign-in:</p>
+        <StyledFirebaseAuth
+          uiConfig={uiConfig}
+          firebaseAuth={firebase.auth()}
+        />
+      </div>
+    );
+  }
+  return <Redirect to='/' />;
+}
+
+export default SignInScreen;
