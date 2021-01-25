@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-
+require('firebase/firestore');
 const {
   REACT_APP_FIREBASE_API_KEY,
   REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
@@ -23,6 +23,7 @@ const firebaseConfig = {
     },
   },
 };
+
 const uiConfig = {
   signInFlow: 'popup',
   signInOptions: [
@@ -37,4 +38,8 @@ const uiConfig = {
   // signInSuccessUrl: '/',
 };
 // Initialize Firebase
-export { firebaseConfig, uiConfig };
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+//firestore db instance
+const db = firebase.firestore();
+export { firebaseConfig, uiConfig, db };

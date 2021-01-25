@@ -4,6 +4,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/app';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser, fetchUser } from '../../app/reducers/authSlice';
+import { getRecentPosts } from '../../app/reducers/postSlice';
 import { Redirect } from 'react-router-dom';
 import { uiConfig } from '../../config/firebase';
 
@@ -16,6 +17,7 @@ function SignInScreen() {
       .auth()
       .onAuthStateChanged((user) => {
         dispatch(fetchUser());
+        dispatch(getRecentPosts());
       });
     return () => unregisterAuthObserver();
     //eslint-disable-next-line

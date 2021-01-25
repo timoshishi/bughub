@@ -1,13 +1,17 @@
 import firebase from 'firebase/app';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser, setToken, selectUser } from '../../app/reducers/authSlice';
+import {
+  setAuthUser,
+  setToken,
+  selectUser,
+} from '../../app/reducers/authSlice';
 
 const SignOutButton = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const signOut = () => {
     firebase.auth().signOut();
-    dispatch(setUser(null));
+    dispatch(setAuthUser(null));
     dispatch(setToken(null));
   };
   return <div>{user && <button onClick={signOut}>Sign Out</button>}</div>;

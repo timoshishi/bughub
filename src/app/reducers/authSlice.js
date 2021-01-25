@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import firebase from 'firebase/app';
+import { db } from '../../config/firebase';
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -7,7 +9,7 @@ export const authSlice = createSlice({
     token: null,
   },
   reducers: {
-    setUser: (state, action) => {
+    setAuthUser: (state, action) => {
       return {
         ...state,
         user: action.payload,
@@ -22,7 +24,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, setToken } = authSlice.actions;
+export const { setAuthUser, setToken } = authSlice.actions;
 
 export const fetchUser = (state) => async (dispatch) => {
   const currentUser = await firebase.auth().currentUser;
@@ -30,15 +32,36 @@ export const fetchUser = (state) => async (dispatch) => {
     if (currentUser) {
       const token = await firebase.auth().currentUser.getIdToken();
       const { displayName, email, photoURL, emailVerified, uid } = currentUser;
-      dispatch(setUser({ displayName, email, photoURL, emailVerified, uid }));
+      const userObj = { displayName, email, photoURL, emailVerified, uid };
+      dispatch(setAuthUser(userObj));
       dispatch(setToken(token));
+      findOrCreateUser(userObj);
     } else {
       dispatch(setToken(null));
-      dispatch(setUser(currentUser));
+      dispatch(setAuthUser(currentUser));
     }
   } catch (err) {
     console.error(err);
   }
+};
+const findOrCreateUser = async (user) => {
+  const userRef = db.collection('users').doc(user.uid);
+  userRef
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        db.collection('users').doc(user.uid).set({
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          posts: [],
+          uid: user.uid,
+          created: firebase.firestore.Timestamp.now(),
+        });
+      }
+    })
+    .catch((err) => console.error('error getting docs', err));
 };
 
 export const selectUser = (state) => state.auth.user;
