@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import { db } from '../../config/firebase';
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -7,52 +9,61 @@ export const authSlice = createSlice({
     token: null,
   },
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
-      // const currentUser = action.payload;
-      // if (!currentUser) {
-      //   state.user = currentUser;
-      // } else {
-      //   const user = {
-      //     name: currentUser.displayName,
-      //     email: currentUser.email,
-      //     photoUrl: currentUser.photoUrl,
-      //     emailVerified: currentUser.email,
-      //     uid: currentUser.uid,
-      //   };
-      //   state.user = user;
-      // }
+    setAuthUser: (state, action) => {
+      return {
+        ...state,
+        user: action.payload,
+      };
     },
     setToken: (state, action) => {
-      state.token = action.payload;
+      return {
+        ...state,
+        token: action.payload,
+      };
     },
   },
 });
 
-export const { setUser, setToken } = authSlice.actions;
+export const { setAuthUser, setToken } = authSlice.actions;
 
 export const fetchUser = (state) => async (dispatch) => {
+  const currentUser = await firebase.auth().currentUser;
   try {
-    const currentUser = await firebase.auth().currentUser;
-    const token = await firebase.auth().currentUser.getIdToken();
-    if (!!currentUser) {
-      const user = {
-        name: currentUser.displayName,
-        email: currentUser.email,
-        photoUrl: currentUser.photoUrl,
-        emailVerified: currentUser.email,
-        uid: currentUser.uid,
-      };
-      dispatch(setUser(user));
-    }
-    if (!!token) {
+    if (currentUser) {
+      const token = await firebase.auth().currentUser.getIdToken();
+      const { displayName, email, photoURL, emailVerified, uid } = currentUser;
+      const userObj = { displayName, email, photoURL, emailVerified, uid };
+      dispatch(setAuthUser(userObj));
       dispatch(setToken(token));
+      findOrCreateUser(userObj);
+    } else {
+      dispatch(setToken(null));
+      dispatch(setAuthUser(currentUser));
     }
   } catch (err) {
     console.error(err);
   }
 };
+const findOrCreateUser = async (user) => {
+  const userRef = db.collection('users').doc(user.uid);
+  userRef
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        db.collection('users').doc(user.uid).set({
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          posts: [],
+          uid: user.uid,
+          created: firebase.firestore.Timestamp.now(),
+        });
+      }
+    })
+    .catch((err) => console.error('error getting docs', err));
+};
 
 export const selectUser = (state) => state.auth.user;
-
+export const selectToken = (state) => state.auth.token;
 export default authSlice.reducer;

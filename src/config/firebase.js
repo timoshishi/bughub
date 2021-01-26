@@ -1,4 +1,5 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase';
+require('firebase/firestore');
 const {
   REACT_APP_FIREBASE_API_KEY,
   REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
@@ -22,16 +23,23 @@ const firebaseConfig = {
     },
   },
 };
+
 const uiConfig = {
-  // Popup signin flow rather than redirect flow.
   signInFlow: 'popup',
-  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/counter',
-  // We will display Google and Facebook as auth providers.
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
   ],
+  callbacks: {
+    // Avoid redirects after sign-in.
+    signInSuccessWithAuthResult: () => false,
+  },
+  //redirect on success (using react-router Redirect instead)
+  // signInSuccessUrl: '/',
 };
 // Initialize Firebase
-export { firebaseConfig, uiConfig };
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+//firestore db instance
+const db = firebase.firestore();
+export { firebaseConfig, uiConfig, db };
