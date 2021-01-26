@@ -11,14 +11,12 @@ import {
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
-// import { createPost } from '../../app/reducers/postSlice';
 import { db } from '../../config/firebase';
 import firebase from 'firebase';
 export default function PostForm() {
-  const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [postData, setPostData] = useState({
     body: '',
     bug: '',
