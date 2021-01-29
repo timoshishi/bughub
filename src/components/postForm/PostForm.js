@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
 import { db } from '../../config/firebase';
 import firebase from 'firebase/app';
+import postGenerator from '../../dataGen/postGenerator';
 export default function PostForm() {
   const user = useSelector(selectUser);
 
@@ -30,6 +31,9 @@ export default function PostForm() {
       [e.target.name]: e.target.value,
     });
   };
+  // const createPosts = () => {
+  //   [...new Array(100)].forEach((un) => createPost(postGenerator(user.uid)));
+  // };
   const handleSubmit = () => {
     const newPost = {
       createdBy: user.uid,
@@ -52,6 +56,7 @@ export default function PostForm() {
         keywords: keywordArr,
         created: firebase.firestore.Timestamp.now().seconds,
       });
+      await console.log('created', postData);
     } catch (err) {
       console.error(err);
     }
@@ -155,7 +160,7 @@ export default function PostForm() {
             Cancel
           </Button>
           <Button onClick={handleSubmit} color='primary'>
-            Subscribe
+            Submit
           </Button>
         </DialogActions>
       </Dialog>

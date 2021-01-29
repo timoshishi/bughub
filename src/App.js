@@ -9,7 +9,8 @@ import { fetchUser } from './app/reducers/authSlice';
 import { getRecentPosts } from './app/reducers/postSlice';
 import { useDispatch } from 'react-redux';
 import PostForm from './components/postForm/PostForm';
-// import './config/firebase';
+import Navbar from './components/Navbar/Navbar';
+
 const App = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -19,7 +20,7 @@ const App = (props) => {
   }, []);
   return (
     <div>
-      <SignOutButton />
+      <Navbar />
       <PostForm />
       <Switch>
         <Route exact path='/signin' component={SignInScreen} />

@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import firebase from 'firebase/app';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -5,7 +6,18 @@ import {
   setToken,
   selectUser,
 } from '../../app/reducers/authSlice';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
 
+const ColorButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(green[500]),
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[700],
+    },
+  },
+}))(Button);
 const SignOutButton = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -14,7 +26,20 @@ const SignOutButton = () => {
     dispatch(setAuthUser(null));
     dispatch(setToken(null));
   };
-  return <div>{user && <button onClick={signOut}>Sign Out</button>}</div>;
+  return (
+    <div>
+      {user ? (
+        <ColorButton
+          onClick={signOut}
+          variant='outlined'
+          style={{ color: 'white' }}>
+          Sign Out
+        </ColorButton>
+      ) : (
+        <ColorButton disabled></ColorButton>
+      )}
+    </div>
+  );
 };
 
 export default SignOutButton;
