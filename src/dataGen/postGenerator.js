@@ -1,8 +1,4 @@
-import { AccordionSummary } from '@material-ui/core';
-import { KitchenRounded } from '@material-ui/icons';
-import userEvent from '@testing-library/user-event';
-
-import faker, { internet, lorem } from 'faker';
+import { internet, lorem } from 'faker';
 
 export default function postGenerator(uid) {
   return {

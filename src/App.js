@@ -4,7 +4,6 @@ import './App.css';
 import CounterApp from './views/CounterApp';
 import SignInScreen from './components/auth/SignInScreen';
 import PrivateRoute from './components/auth/PrivateRoute';
-import SignOutButton from './components/auth/SignOutButton';
 import { fetchUser } from './app/reducers/authSlice';
 import { getRecentPosts } from './app/reducers/postSlice';
 import { useDispatch } from 'react-redux';
