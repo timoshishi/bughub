@@ -1,5 +1,7 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 require('firebase/firestore');
+require('firebase/analytics');
 const {
   REACT_APP_FIREBASE_API_KEY,
   REACT_APP_FIREBASE_MESSAGING_SENDER_ID,

@@ -13,6 +13,10 @@ function SignInScreen() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    /**
+     *
+     * @param
+     */
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged((user) => {

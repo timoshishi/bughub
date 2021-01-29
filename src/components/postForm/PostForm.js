@@ -9,10 +9,10 @@ import {
   DialogTitle,
   Box,
 } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
 import { db } from '../../config/firebase';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 export default function PostForm() {
   const user = useSelector(selectUser);
 
