@@ -1,11 +1,12 @@
 import algoliasearch from 'algoliasearch';
 
-const client = algoliasearch(
+const searchClient = algoliasearch(
   process.env.REACT_APP_ALGOLIA_APP_ID,
   process.env.REACT_APP_ALGOLIA_API_KEY
 );
 
-// const index = client.initIndex('demo_saas');
+export default searchClient;
+const index = searchClient.initIndex('posts');
 
 // index.setSettings({
 //   // Select the attributes you want to search in
@@ -17,13 +18,13 @@ const client = algoliasearch(
 //   // Define the attribute we want to distinct on
 //   attributeForDistinct: 'type',
 // });
-// fetch('https://alg.li/doc-saas.json')
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (contacts) {
-//     console.log(contacts);
-//     return index.saveObjects(contacts, {
-//       autoGenerateObjectIDIfNotExist: true,
-//     });
-//   });
+fetch('https://alg.li/doc-saas.json')
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (contacts) {
+    console.log(contacts);
+    // return index.saveObjects(contacts, {
+    //   autoGenerateObjectIDIfNotExist: true,
+    // });
+  });
