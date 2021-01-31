@@ -45,9 +45,6 @@ export default function PostForm() {
       let keywordArr = postData.keywords.length
         ? postData.keywords.split(',').map((word) => word.trim())
         : [];
-      console.log({
-        ...postData,
-      });
       await postsRef.doc().set({
         ...postData,
         keywords: keywordArr,
