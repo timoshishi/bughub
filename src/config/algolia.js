@@ -6,7 +6,7 @@ const searchClient = algoliasearch(
 );
 
 export default searchClient;
-const index = searchClient.initIndex('posts');
+// const index = searchClient.initIndex('posts');
 
 // index.setSettings({
 //   // Select the attributes you want to search in
@@ -18,13 +18,13 @@ const index = searchClient.initIndex('posts');
 //   // Define the attribute we want to distinct on
 //   attributeForDistinct: 'type',
 // });
-fetch('https://alg.li/doc-saas.json')
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (contacts) {
-    console.log(contacts);
-    // return index.saveObjects(contacts, {
-    //   autoGenerateObjectIDIfNotExist: true,
-    // });
-  });
+// fetch('https://alg.li/doc-saas.json')
+//   .then(function (response) {
+//     return response.json();
+//   })
+//   .then(function (contacts) {
+//     console.log(contacts);
+//     // return index.saveObjects(contacts, {
+//     //   autoGenerateObjectIDIfNotExist: true,
+//     // });
+//   });
