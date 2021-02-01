@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
 import { db } from '../../config/firebase';
 import firebase from 'firebase/app';
-import postGenerator from '../../dataGen/postGenerator.js';
 
 export default function PostForm() {
   const user = useSelector(selectUser);
