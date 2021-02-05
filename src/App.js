@@ -11,7 +11,7 @@ import PostForm from './components/postForm/PostForm';
 import Navbar from './components/Navbar/Navbar';
 import SearchComponent from './components/Search/SearchComponent';
 import './App.css';
-import ImageForm from './components/ImageForm';
+import ImageForm from './components/ImageUploader/ImageForm';
 const App = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
