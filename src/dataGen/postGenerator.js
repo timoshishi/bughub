@@ -13,7 +13,11 @@ export default function postGenerator(uid) {
 }
 
 /*
-  const createPosts = () => {
-    [...new Array(10)].forEach((un) => createPost(postGenerator(user.uid)));
-  };
+Use in PostForm.js - replace onSubmit function body with this
+    const createPosts = (postQty) => {
+      [...new Array(postQty)].forEach((un) =>
+        createPost(postGenerator(user.uid))
+      );
+    };
+    createPosts(10);
   */

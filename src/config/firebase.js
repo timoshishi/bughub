@@ -15,7 +15,7 @@ const firebaseConfig = {
   apiKey: REACT_APP_FIREBASE_API_KEY,
   authDomain: 'hd-bughub.firebaseapp.com',
   projectId: 'hd-bughub',
-  storageBucket: 'hd-bughub.appspot.com',
+  storageBucket: 'timoshishi-bughub',
   messagingSenderId: REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: REACT_APP_FIREBASE_APP_ID,
   measurementId: REACT_APP_FIREBASE_MEASUREMENT_ID,
@@ -44,4 +44,5 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 //firestore db instance
 const db = firebase.firestore();
+// const storage = firebase.storage();
 export { firebaseConfig, uiConfig, db };

@@ -9,7 +9,9 @@ import { getRecentPosts } from './app/reducers/postSlice';
 import { useDispatch } from 'react-redux';
 import PostForm from './components/postForm/PostForm';
 import Navbar from './components/Navbar/Navbar';
-
+import SearchComponent from './components/Search/SearchComponent';
+import './App.css';
+import ImageForm from './components/ImageUploader/ImageForm';
 const App = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -20,7 +22,9 @@ const App = (props) => {
   return (
     <div>
       <Navbar />
+      <ImageForm />
       <PostForm />
+      <SearchComponent />
       <Switch>
         <Route exact path='/signin' component={SignInScreen} />
         <PrivateRoute exact path='/' component={CounterApp} />

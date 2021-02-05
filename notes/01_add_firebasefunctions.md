@@ -28,22 +28,18 @@
 
 6. Create a function (these functions add and delete posts to the index)
 
+## /functions/index.js
+
 ```javascript
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const algoliasearch = require('algoliasearch');
 const {
   saveDocumentInAlgolia,
   updateDocumentInAlgolia,
   deleteDocumentFromAlgolia,
-} = require('./firestoreUtilityFunctions.js');
+} = require('./firestoreAlgoliaUtils.js');
 
 admin.initializeApp();
-const env = functions.config();
-
-const client = algoliasearch(env.algolia.appid, env.algolia.apikey);
-
-const index = client.initIndex('posts');
 
 exports.postsOnCreate = functions.firestore
   .document('posts/{uid}')
@@ -64,28 +60,36 @@ exports.postsOnDelete = functions.firestore
   });
 ```
 
-### Utility Functions
+## /functions/firestoreAlgoliaUtils.js
 
 ```javascript
+const algoliasearch = require('algoliasearch');
+const functions = require('firebase-functions');
+const env = functions.config();
+const client = algoliasearch(env.algolia.appid, env.algolia.apikey);
+const postsIndex = client.initIndex('posts');
+
 async function saveDocumentInAlgolia(snapshot, uid) {
   if (snapshot.exists) {
     const record = snapshot.data();
     if (record) {
       record.objectID = uid;
-      await index.saveObject(record);
+      await postsIndex.saveObject(record);
     }
   }
 }
 
-export async function updateDocumentInAlgolia(change, uid) {
-  const docBeforeChange = change.before.data();
-  const docAfterChange = change.after.data();
+async function updateDocumentInAlgolia(change, uid) {
+  /** We gave access to the data before and after the change
+   const docBeforeChange = change.before.data();
+   const docAfterChange = change.after.data();
+   */
   await saveDocumentInAlgolia(change.after);
 }
 
 async function deleteDocumentFromAlgolia(snapshot, uid) {
   if (snapshot.exists) {
-    await collectionIndex.deleteObject(uid);
+    await postsIndex.deleteObject(uid);
   }
 }
 
