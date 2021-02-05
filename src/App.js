@@ -11,6 +11,7 @@ import PostForm from './components/postForm/PostForm';
 import Navbar from './components/Navbar/Navbar';
 import SearchComponent from './components/Search/SearchComponent';
 import './App.css';
+import ImageForm from './components/ImageForm';
 const App = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -21,6 +22,7 @@ const App = (props) => {
   return (
     <div>
       <Navbar />
+      <ImageForm />
       <PostForm />
       <SearchComponent />
       <Switch>
