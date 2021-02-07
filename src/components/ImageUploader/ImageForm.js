@@ -26,16 +26,29 @@ class ImageForm extends Component {
     this.setState({ avatar: filename, progress: 100, isUploading: false });
     firebase
       .storage()
-      .ref('images')
+      .ref('')
       .child(filename)
       .getDownloadURL()
       .then((url) => {
         console.log(url);
         this.setState({ avatarURL: url });
+        // this.quickstart(url);
       })
       .catch((err) => console.error('at upload success', err));
   };
+  // quickstart = async (url) => {
+  //   // Imports the Google Cloud client library
+  //   const vision = require('@google-cloud/vision');
 
+  //   // Creates a client
+  //   const client = new vision.ImageAnnotatorClient();
+
+  //   // Performs label detection on the image file
+  //   const [result] = await client.labelDetection(url);
+  //   const labels = result.labelAnnotations;
+  //   console.log('Labels:');
+  //   labels.forEach((label) => console.log(label.description));
+  // };
   render() {
     return (
       <div>
@@ -54,7 +67,7 @@ class ImageForm extends Component {
             accept='image/*'
             name='avatar'
             randomizeFilename
-            storageRef={firebase.storage().ref('images')}
+            storageRef={firebase.storage().ref('')}
             onUploadStart={this.handleUploadStart}
             onUploadError={this.handleUploadError}
             onUploadSuccess={this.handleUploadSuccess}
