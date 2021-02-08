@@ -2,10 +2,11 @@ import React from 'react';
 import searchClient from '../../config/algolia';
 import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
 import Hit from './Hit';
+import { Typography } from '@material-ui/core';
 const SearchComponent = (props) => {
   return (
     <div>
-      <h3>search component</h3>
+      <Typography>Search</Typography>
       <InstantSearch searchClient={searchClient} indexName='posts'>
         <SearchBox />
         <Hits hitComponent={Hit} style={{ listStyle: 'none' }} />

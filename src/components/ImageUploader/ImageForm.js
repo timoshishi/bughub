@@ -1,29 +1,45 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import firebase from 'firebase';
 import FileUploader from './react-firebase-file-uploader/lib/index';
+import { FormLabel, makeStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
-class ImageForm extends Component {
-  state = {
-    username: '',
-    avatar: '',
-    isUploading: false,
-    progress: 0,
-    avatarURL: '',
+const useStyles = makeStyles({
+  label: {
+    padding: '0.5rem',
+    borderRadius: '4px',
+    marginBottom: '1rem',
+    color: '#3f51b5',
+    '&:hover': {
+      backgroundColor: 'rgba(63, 81, 181, 0.05)',
+      cursor: 'pointer',
+    },
+  },
+});
+
+const ImageForm = ({ setImageUrls, imageUrls }) => {
+  const [isUploading, setIsUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [url, setUrl] = useState('');
+
+  const classes = useStyles();
+
+  const handleUploadStart = () => {
+    setIsUploading(true);
+    setProgress(0);
   };
 
-  handleChangeUsername = (event) =>
-    this.setState({ username: event.target.value });
+  const handleProgress = (progress) => setProgress(progress);
 
-  handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
-
-  handleProgress = (progress) => this.setState({ progress });
-  handleUploadError = (error) => {
-    this.setState({ isUploading: false });
+  const handleUploadError = (error) => {
+    setIsUploading(false);
     console.error('handleUploadError', error);
   };
 
-  handleUploadSuccess = (filename) => {
-    this.setState({ avatar: filename, progress: 100, isUploading: false });
+  const handleUploadSuccess = (filename) => {
+    setIsUploading(false);
+    setProgress(100);
+
     firebase
       .storage()
       .ref('')
@@ -31,52 +47,37 @@ class ImageForm extends Component {
       .getDownloadURL()
       .then((url) => {
         console.log(url);
-        this.setState({ avatarURL: url });
-        // this.quickstart(url);
+        setImageUrls([...imageUrls, url]);
+        setUrl(url);
       })
       .catch((err) => console.error('at upload success', err));
   };
-  // quickstart = async (url) => {
-  //   // Imports the Google Cloud client library
-  //   const vision = require('@google-cloud/vision');
 
-  //   // Creates a client
-  //   const client = new vision.ImageAnnotatorClient();
+  return (
+    <div>
+      <form>
+        {isUploading && <p>Progress: {progress}</p>}
 
-  //   // Performs label detection on the image file
-  //   const [result] = await client.labelDetection(url);
-  //   const labels = result.labelAnnotations;
-  //   console.log('Labels:');
-  //   labels.forEach((label) => console.log(label.description));
-  // };
-  render() {
-    return (
-      <div>
-        <form>
-          <label>Username:</label>
-          <input
-            type='text'
-            value={this.state.username}
-            name='username'
-            onChange={this.handleChangeUsername}
-          />
-          <label>Avatar:</label>
-          {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
-          {this.state.avatarURL && <img src={this.state.avatarURL} />}
+        <FormLabel variant='filled' className={classes.label} color='primary'>
           <FileUploader
+            hidden
             accept='image/*'
             name='avatar'
             randomizeFilename
             storageRef={firebase.storage().ref('')}
-            onUploadStart={this.handleUploadStart}
-            onUploadError={this.handleUploadError}
-            onUploadSuccess={this.handleUploadSuccess}
-            onProgress={this.handleProgress}
+            onUploadStart={handleUploadStart}
+            onUploadError={handleUploadError}
+            onUploadSuccess={handleUploadSuccess}
+            onProgress={handleProgress}
           />
-        </form>
-      </div>
-    );
-  }
-}
-
+          Add Screen Shots
+        </FormLabel>
+      </form>
+    </div>
+  );
+};
+ImageForm.propTypes = {
+  imageUrls: PropTypes.array.isRequired,
+  setImageUrls: PropTypes.func.isRequired,
+};
 export default ImageForm;
