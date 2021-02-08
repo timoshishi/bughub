@@ -14,6 +14,7 @@ import firebase from 'firebase/app';
 import TextEntryFields from './TextEntryFields';
 import ImageForm from '../ImageUploader/ImageForm';
 import UploadedImages from './UploadedImages';
+import postGenerator from '../../dataGen/postGenerator';
 
 export default function PostForm() {
   const user = useSelector(selectUser);
@@ -86,7 +87,7 @@ export default function PostForm() {
   return (
     <Box width='100%'>
       <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-        Open form dialog
+        Add a new bug
       </Button>
       <Dialog
         open={open}

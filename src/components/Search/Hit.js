@@ -7,8 +7,11 @@ import {
   AccordionDetails,
   Typography,
   Box,
+  Paper,
+  Grid,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Screenshot from './Screenshot';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -43,23 +46,46 @@ const Hit = ({ hit }) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            <span className={classes.spanHeader}> Summary: </span>
-            <Highlight attribute='body' hit={hit} />
-          </Typography>
+          <Box mx={1}>
+            <Paper>
+              <Typography>
+                <span className={classes.spanHeader}> Summary: </span>
+                <Highlight attribute='body' hit={hit} />
+              </Typography>
+            </Paper>
+          </Box>
           {hit.bug.length ? (
-            <Typography>
-              <span className={classes.spanHeader}> Bugs: </span>
-              <Highlight attribute='bug' hit={hit} />
-            </Typography>
+            <Box mx={1}>
+              <Paper>
+                <Typography>
+                  <span className={classes.spanHeader}> Bugs: </span>
+                  <Highlight attribute='bug' hit={hit} />
+                </Typography>
+              </Paper>
+            </Box>
           ) : null}
         </AccordionDetails>
-        <Box mx={2}>
-          <Typography>
-            <span className={classes.spanHeader}> Solution: </span>
-            <Highlight attribute='solution' hit={hit} />
-          </Typography>
-        </Box>
+        <AccordionDetails>
+          <Box mx={1}>
+            <Paper>
+              <Typography>
+                <span className={classes.spanHeader}> Solution: </span>
+                <Highlight attribute='solution' hit={hit} />
+              </Typography>
+            </Paper>
+          </Box>
+        </AccordionDetails>
+        <AccordionDetails>
+          <Paper>
+            <Typography>
+              {hit.imageUrls.length
+                ? hit.imageUrls.map((url) => (
+                    <Screenshot url={url} key={Math.random()} />
+                  ))
+                : null}
+            </Typography>
+          </Paper>
+        </AccordionDetails>
       </Accordion>
     </div>
   );
