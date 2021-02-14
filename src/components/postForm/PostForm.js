@@ -14,7 +14,7 @@ import firebase from 'firebase/app';
 import TextEntryFields from './TextEntryFields';
 import ImageForm from '../ImageUploader/ImageForm';
 import UploadedImages from './UploadedImages';
-import postGenerator from '../../dataGen/postGenerator';
+// import postGenerator from '../../dataGen/postGenerator';
 
 export default function PostForm() {
   const user = useSelector(selectUser);
