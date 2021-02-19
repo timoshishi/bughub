@@ -9,6 +9,11 @@ export default function postGenerator(uid) {
     bug: lorem.sentences(4),
     solution: lorem.sentences(),
     keywords: [...new Array(5)].map((un) => lorem.words()).join(','),
+    imageUrls: [
+      'https://picsum.photos/200/300',
+      'https://picsum.photos/200/300',
+      'https://picsum.photos/200/300',
+    ],
   };
 }
 

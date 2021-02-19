@@ -2,15 +2,17 @@ import React from 'react';
 import searchClient from '../../config/algolia';
 import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
 import Hit from './Hit';
+import { Grid, Paper, Typography } from '@material-ui/core';
 const SearchComponent = (props) => {
   return (
-    <div>
-      <h3>search component</h3>
+    <Grid container justify='center' spacing={2}>
       <InstantSearch searchClient={searchClient} indexName='posts'>
         <SearchBox />
-        <Hits hitComponent={Hit} style={{ listStyle: 'none' }} />
+        <Grid item mx={2} md={8}>
+          <Hits hitComponent={Hit} style={{ listStyle: 'none' }} />
+        </Grid>
       </InstantSearch>
-    </div>
+    </Grid>
   );
 };
 // function Hit({ hit }) {

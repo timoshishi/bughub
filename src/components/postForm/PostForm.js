@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import {
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Box,
 } from '@material-ui/core';
@@ -13,6 +11,10 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
 import { db } from '../../config/firebase';
 import firebase from 'firebase/app';
+import TextEntryFields from './TextEntryFields';
+import ImageForm from '../ImageUploader/ImageForm';
+import UploadedImages from './UploadedImages';
+// import postGenerator from '../../dataGen/postGenerator';
 
 export default function PostForm() {
   const user = useSelector(selectUser);
@@ -25,6 +27,7 @@ export default function PostForm() {
     solution: '',
     summary: '',
   });
+  const [imageUrls, setImageUrls] = useState([]);
   const handleFormData = (e) => {
     setPostData({
       ...postData,
@@ -34,12 +37,14 @@ export default function PostForm() {
 
   const handleSubmit = () => {
     const newPost = {
+      imageUrls,
       createdBy: user.uid,
       ...postData,
     };
     createPost(newPost);
     handleCancel();
   };
+
   const createPost = async (postData) => {
     try {
       const postsRef = db.collection('posts');
@@ -49,6 +54,7 @@ export default function PostForm() {
       await postsRef.doc().set({
         ...postData,
         keywords: keywordArr,
+        imageUrls,
         created: firebase.firestore.Timestamp.now().seconds,
       });
       await console.log('created', postData);
@@ -56,9 +62,15 @@ export default function PostForm() {
       console.error(err);
     }
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleCancel = () => {
     setPostData({
       createdBy: user.uid,
@@ -68,16 +80,14 @@ export default function PostForm() {
       solution: '',
       summary: '',
     });
+    setImageUrls([]);
     handleClose();
-  };
-  const handleClose = () => {
-    setOpen(false);
   };
 
   return (
     <Box width='100%'>
       <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-        Open form dialog
+        Add a new bug
       </Button>
       <Dialog
         open={open}
@@ -85,75 +95,19 @@ export default function PostForm() {
         aria-labelledby='form-dialog-title'>
         <DialogTitle id='form-dialog-title'>New Bug</DialogTitle>
         <DialogContent>
-          <DialogContentText>These fields support Markdown!</DialogContentText>
-          <TextField
-            autoFocus
-            margin='dense'
-            name='summary'
-            label='Brief Summary'
-            type='text'
-            value={postData.summary}
-            onChange={handleFormData}
-            required
-            fullWidth
+          <TextEntryFields
+            postData={postData}
+            handleFormData={handleFormData}
           />
-          <TextField
-            autoFocus
-            margin='dense'
-            name='keywords'
-            label='Add comma separated keywords'
-            type='text'
-            value={postData.keywords}
-            onChange={handleFormData}
-            fullWidth
-          />
-          <Box my={1}>
-            <TextField
-              aria-label='minimum height'
-              multiline
-              label='Problem Encountered'
-              variant='outlined'
-              fullWidth
-              name='body'
-              value={postData.body}
-              onChange={handleFormData}
-              rows={5}
-              placeholder='Please enter a description of the problem'
-              required
-            />
-          </Box>
-          <Box my={2}>
-            <TextField
-              aria-label='minimum height'
-              multiline
-              label='Bugs'
-              variant='outlined'
-              fullWidth
-              name='bug'
-              value={postData.bug}
-              onChange={handleFormData}
-              rows={5}
-              placeholder='Please enter any bugs'
-            />
-          </Box>
-          <TextField
-            aria-label='minimum height'
-            multiline
-            label='Solution'
-            variant='outlined'
-            fullWidth
-            name='solution'
-            value={postData.solution}
-            onChange={handleFormData}
-            rows={5}
-            placeholder='Please enter the steps taken to come to a solution'
-            required
-          />
+          {imageUrls.length ? (
+            <UploadedImages imageUrls={imageUrls} setImageUrls={setImageUrls} />
+          ) : null}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color='primary'>
+          <Button onClick={handleCancel} color='secondary'>
             Cancel
           </Button>
+          <ImageForm setImageUrls={setImageUrls} imageUrls={imageUrls} />
           <Button onClick={handleSubmit} color='primary'>
             Submit
           </Button>
