@@ -20,7 +20,6 @@ const App = () => {
   return (
     <div>
       <Navbar />
-
       <Switch>
         <Route exact path='/signin' component={SignInScreen} />
         <PrivateRoute exact path='/' component={Home} />

@@ -36,7 +36,7 @@ const SignOutButton = () => {
           Sign Out
         </ColorButton>
       ) : (
-        <ColorButton disabled></ColorButton>
+        ''
       )}
     </div>
   );
