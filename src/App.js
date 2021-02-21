@@ -6,10 +6,10 @@ import PrivateRoute from './components/auth/PrivateRoute';
 import { fetchUser } from './app/reducers/authSlice';
 import { getRecentPosts } from './app/reducers/postSlice';
 import { useDispatch } from 'react-redux';
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/Layout/Navbar';
 import './App.css';
 
-import Landing from './components/Landing/Landing';
+import Home from './components/Layout/Home';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,7 +23,7 @@ const App = () => {
 
       <Switch>
         <Route exact path='/signin' component={SignInScreen} />
-        <PrivateRoute exact path='/' component={Landing} />
+        <PrivateRoute exact path='/' component={Home} />
       </Switch>
     </div>
   );

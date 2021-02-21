@@ -26,7 +26,6 @@ function SignInScreen() {
   if (!user) {
     return (
       <div>
-        <p>Please sign-in:</p>
         <StyledFirebaseAuth
           uiConfig={uiConfig}
           firebaseAuth={firebase.auth()}

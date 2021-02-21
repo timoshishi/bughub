@@ -8,7 +8,6 @@ import {
   Typography,
   Box,
   Paper,
-  Grid,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Screenshot from './Screenshot';
