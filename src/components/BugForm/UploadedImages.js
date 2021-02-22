@@ -23,7 +23,7 @@ const UploadedImages = ({ imageUrls, setImageUrls }) => {
       spacing={2}
       display='flex'
       flexWrap='wrap'
-      justifyContent='center'
+      justify='center'
       alignContent='space-around'
       className={classes.thumbnail}>
       {imageUrls.map((url) => (

@@ -11,9 +11,9 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
 import { db } from '../../config/firebase';
 import firebase from 'firebase/app';
-import TextEntryFields from './TextEntryFields';
-import ImageForm from '../ImageUploader/ImageForm';
-import UploadedImages from './UploadedImages';
+import { AddCircleOutlined } from '@material-ui/icons';
+import FormActionButtons from '../BugForm/FormActionButtons';
+import FormContent from '../BugForm/FormContent';
 
 export default function BugForm() {
   const user = useSelector(selectUser);
@@ -85,8 +85,12 @@ export default function BugForm() {
 
   return (
     <Box width='100%'>
-      <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-        Add a new bug
+      <Button
+        variant='outlined'
+        color='inherit'
+        onClick={handleClickOpen}
+        endIcon={<AddCircleOutlined />}>
+        New bug
       </Button>
       <Dialog
         open={open}
@@ -94,22 +98,20 @@ export default function BugForm() {
         aria-labelledby='form-dialog-title'>
         <DialogTitle id='form-dialog-title'>New Bug</DialogTitle>
         <DialogContent>
-          <TextEntryFields
-            postData={postData}
+          <FormContent
+            imageUrls={imageUrls}
+            setImageUrls={setImageUrls}
             handleFormData={handleFormData}
+            postData={postData}
           />
-          {imageUrls.length ? (
-            <UploadedImages imageUrls={imageUrls} setImageUrls={setImageUrls} />
-          ) : null}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color='secondary'>
-            Cancel
-          </Button>
-          <ImageForm setImageUrls={setImageUrls} imageUrls={imageUrls} />
-          <Button onClick={handleSubmit} color='primary'>
-            Submit
-          </Button>
+          <FormActionButtons
+            handleSubmit={handleSubmit}
+            imageUrls={imageUrls}
+            setImageUrls={setImageUrls}
+            handleCancel={handleCancel}
+          />
         </DialogActions>
       </Dialog>
     </Box>

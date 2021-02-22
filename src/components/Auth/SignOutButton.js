@@ -18,6 +18,7 @@ const ColorButton = withStyles((theme) => ({
     },
   },
 }))(Button);
+
 const SignOutButton = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);

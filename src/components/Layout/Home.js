@@ -1,14 +1,9 @@
 import React from 'react';
 import SearchComponent from '../Search/SearchComponent';
-import BugForm from '../BugForm/BugForm';
+import { Grid } from '@material-ui/core';
 
 const Landing = () => {
-  return (
-    <div>
-      <BugForm />
-      <SearchComponent />
-    </div>
-  );
+  return <SearchComponent />;
 };
 
 export default Landing;

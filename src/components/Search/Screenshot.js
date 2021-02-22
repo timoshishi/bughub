@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Screenshot = ({ url }) => {
-  console.log(url);
   return (
     <>
       <img
