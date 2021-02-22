@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, InputBase } from '@material-ui/core';
 
 import useStyles from './navStyles.js';
-import SignOutButton from '../auth/SignOutButton.js';
+import SignOutButton from '../Auth/SignOutButton.js';
 
 const Navbar = () => {
   const classes = useStyles();
