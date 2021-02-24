@@ -27,9 +27,9 @@
     "react-scripts": "4.0.1"
   },
   "scripts": {
-    "heroku-prebuild": "npm install -g serve",
-    "dev": "react-scripts start",
-    "start": "serve -s build",
+    // "heroku-prebuild": "npm install -g serve",
+    // "start": "serve -s build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
