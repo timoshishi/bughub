@@ -19,6 +19,7 @@ export default function BugForm() {
   const user = useSelector(selectUser);
 
   const [open, setOpen] = useState(false);
+  const [imageUrls, setImageUrls] = useState([]);
   const [postData, setPostData] = useState({
     body: '',
     bug: '',
@@ -26,7 +27,7 @@ export default function BugForm() {
     solution: '',
     summary: '',
   });
-  const [imageUrls, setImageUrls] = useState([]);
+
   const handleFormData = (e) => {
     setPostData({
       ...postData,
