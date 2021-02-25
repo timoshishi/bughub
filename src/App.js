@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import './App.css';
-import SignInScreen from './components/auth/SignInScreen';
-import PrivateRoute from './components/auth/PrivateRoute';
+import Landing from './components/Layout/Landing';
+import PrivateRoute from './components/Auth/PrivateRoute';
 import { fetchUser } from './app/reducers/authSlice';
 import { getRecentPosts } from './app/reducers/postSlice';
 import { useDispatch } from 'react-redux';
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/Layout/Navbar';
 import './App.css';
 
-import Landing from './components/Landing/Landing';
+import Home from './components/Layout/Home';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -20,10 +20,9 @@ const App = () => {
   return (
     <div>
       <Navbar />
-
       <Switch>
-        <Route exact path='/signin' component={SignInScreen} />
-        <PrivateRoute exact path='/' component={Landing} />
+        <Route exact path='/signin' component={Landing} />
+        <PrivateRoute exact path='/' component={Home} />
       </Switch>
     </div>
   );

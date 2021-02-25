@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box } from '@material-ui/core';
 
 const Screenshot = ({ url }) => {
-  console.log(url);
   return (
     <>
       <img

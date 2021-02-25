@@ -53,6 +53,8 @@ ul {
   width: 300px;
   border: none;
   border-bottom: 1px solid #757575;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
 }
 .ais-SearchBox-form input:focus {
   outline: none;
@@ -123,3 +125,6 @@ input:focus ~ .bar:after {
 }
 
 /*Search Button */
+.ais-SearchBox-submit {
+  display: none;
+}

@@ -7,7 +7,7 @@ const searchClient = algoliasearch(
 
 export default searchClient;
 // const index = searchClient.initIndex('posts');
-
+//comment
 // index.setSettings({
 //   // Select the attributes you want to search in
 //   searchableAttributes: ['Name', 'Owner', 'Account', 'Email', 'Website'],
