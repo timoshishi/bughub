@@ -1,10 +1,11 @@
 import React from 'react';
 import searchClient from '../../config/algolia';
 import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
-import Hit from './Hit';
+import BugAccordion from './BugAccordion';
 import { Box, Grid } from '@material-ui/core';
 import BugForm from '../Layout/BugForm';
-const SearchComponent = (props) => {
+
+const SearchComponent = () => {
   return (
     <Grid container justify='flex-start' spacing={2}>
       <InstantSearch searchClient={searchClient} indexName='posts'>
@@ -18,7 +19,7 @@ const SearchComponent = (props) => {
             <BugForm />
           </Box>
           <Grid item mx={4} md={10}>
-            <Hits hitComponent={Hit} style={{ listStyle: 'none' }} />
+            <Hits hitComponent={BugAccordion} style={{ listStyle: 'none' }} />
           </Grid>
         </Grid>
       </InstantSearch>
