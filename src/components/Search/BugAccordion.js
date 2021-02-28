@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Accordion, IconButton, AccordionDetails } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
 import Bug from './Bug';
 import ScreenShots from './ScreenShots';
 import Solution from './Solution';
 import SummaryBody from './SummaryBody';
 import BugSummary from './BugSummary';
-
+import { selectUser } from '../../app/reducers/authSlice';
+import { useSelector } from 'react-redux';
+import EditActions from './EditActions';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -28,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BugAccordion = ({ hit }) => {
+  const user = useSelector(selectUser);
+  console.log(user.uid, hit.createdBy);
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -39,9 +42,7 @@ const BugAccordion = ({ hit }) => {
         </AccordionDetails>
         <Solution hit={hit} classes={classes} />
         <ScreenShots hit={hit} />
-        <IconButton>
-          <Edit />
-        </IconButton>
+        {user.uid === hit.createdBy && <EditActions hit={hit} />}
       </Accordion>
     </div>
   );

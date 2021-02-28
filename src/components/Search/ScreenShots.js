@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ScreenShot from './ScreenShot';
 import { AccordionDetails, Paper, Typography } from '@material-ui/core';
+
 const ScreenShots = ({ hit }) => {
   return (
     <AccordionDetails>

@@ -6,6 +6,7 @@ export const postSlice = createSlice({
   name: 'post',
   initialState: {
     posts: [],
+    currentBug: null,
   },
   reducers: {
     setPosts: (state, action) => {
@@ -14,9 +15,22 @@ export const postSlice = createSlice({
         posts: action.payload,
       };
     },
+    setCurrentBug: (state, action) => {
+      return {
+        ...state,
+        currentBug: action.payload,
+      };
+    },
+    clearCurrentBug: (state, action) => {
+      return {
+        ...state,
+        currentBug: null,
+      };
+    },
   },
 });
-export const { setPosts } = postSlice.actions;
+
+export const { setPosts, setCurrentBug, clearCurrentBug } = postSlice.actions;
 
 export const getRecentPosts = (state) => async (dispatch) => {
   const postsRef = db.collection('posts');
@@ -46,5 +60,6 @@ export const createPost = (postData) => async (dispatch) => {
     });
   } catch (err) {}
 };
+export const selectCurrentBug = (state) => state.post.currentBug;
 
 export default postSlice.reducer;

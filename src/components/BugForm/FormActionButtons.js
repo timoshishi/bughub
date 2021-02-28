@@ -7,6 +7,7 @@ const FormActionButtons = ({
   setImageUrls,
   handleSubmit,
   handleCancel,
+  currentBug,
 }) => {
   return (
     <>
@@ -15,7 +16,7 @@ const FormActionButtons = ({
       </Button>
       <ImageForm setImageUrls={setImageUrls} imageUrls={imageUrls} />
       <Button onClick={handleSubmit} color='inherit'>
-        Submit
+        {currentBug ? 'Update' : 'Submit'}
       </Button>
     </>
   );
