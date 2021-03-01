@@ -14,7 +14,6 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());
-    dispatch(getRecentPosts());
     //eslint-disable-next-line
   }, []);
   return (

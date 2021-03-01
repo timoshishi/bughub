@@ -9,9 +9,11 @@ import {
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
+import PropTypes from 'prop-types';
 import {
   clearCurrentBug,
   selectCurrentBug,
+  toggleRefresh,
 } from '../../app/reducers/postSlice';
 import { db } from '../../config/firebase';
 import firebase from 'firebase/app';
@@ -22,8 +24,8 @@ import FormContent from '../BugForm/FormContent';
 const BugForm = () => {
   const user = useSelector(selectUser);
   const currentBug = useSelector(selectCurrentBug);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const [postData, setPostData] = useState({
@@ -40,13 +42,13 @@ const BugForm = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newPost = {
       imageUrls,
       createdBy: user.uid,
       ...postData,
     };
-    createPost(newPost);
+    await createPost(newPost);
     handleCancel();
   };
 
@@ -67,6 +69,8 @@ const BugForm = () => {
           : currentBug.created,
         updated: firebase.firestore.Timestamp.now().seconds,
       });
+      dispatch(toggleRefresh(true));
+      dispatch(toggleRefresh(false));
 
       await console.log('created', postData);
     } catch (err) {
@@ -152,5 +156,7 @@ const BugForm = () => {
     </Box>
   );
 };
+
+BugForm.propTypes = {};
 
 export default BugForm;

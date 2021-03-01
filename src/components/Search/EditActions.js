@@ -2,18 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Edit, Delete } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
-import { setCurrentBug } from '../../app/reducers/postSlice';
+import { setCurrentBug, toggleRefresh } from '../../app/reducers/postSlice';
 import { useDispatch } from 'react-redux';
 import { db } from '../../config/firebase';
-import firebase from 'firebase';
 
 const EditActions = ({ hit }) => {
   const dispatch = useDispatch();
 
   const deletePost = async () => {
     try {
+      dispatch(toggleRefresh(true));
       await db.collection('posts').doc(hit.objectID).delete();
       await console.log('Post successfully deleted');
+      await dispatch(toggleRefresh(false));
     } catch (err) {
       console.error('deletePost', err);
     }
