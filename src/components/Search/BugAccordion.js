@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Accordion, IconButton, AccordionDetails } from '@material-ui/core';
+import { Accordion, AccordionDetails } from '@material-ui/core';
 import Bug from './Bug';
 import ScreenShots from './ScreenShots';
 import Solution from './Solution';
@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 
 const BugAccordion = ({ hit }) => {
   const user = useSelector(selectUser);
-  console.log(user.uid, hit.createdBy);
   const classes = useStyles();
   return (
     <div className={classes.root}>

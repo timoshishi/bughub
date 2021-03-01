@@ -58,7 +58,22 @@ export const createPost = (postData) => async (dispatch) => {
       ...postData,
       created: firebase.firestore.Timestamp.now(),
     });
-  } catch (err) {}
+  } catch (err) {
+    console.error('createPost', err);
+  }
+};
+
+export const updatePost = (postData, docId) => async (dispatch) => {
+  try {
+    db.collection('posts')
+      .doc(docId)
+      .set({
+        ...postData,
+        updated: firebase.firestore.Timestamp.now(),
+      });
+  } catch (err) {
+    console.error('updatePost', err);
+  }
 };
 export const selectCurrentBug = (state) => state.post.currentBug;
 

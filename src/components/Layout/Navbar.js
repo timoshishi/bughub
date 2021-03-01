@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, InputBase } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 import useStyles from './navStyles.js';
 import SignOutButton from '../Auth/SignOutButton.js';

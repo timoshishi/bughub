@@ -17,6 +17,7 @@ exports.postsOnCreate = functions.firestore
 exports.postsOnUpdate = functions.firestore
   .document('posts/{uid}')
   .onUpdate(async (change, context) => {
+    console.info('updating', change);
     await updateDocumentInAlgolia(change, context.params.uid);
   });
 
@@ -38,30 +39,31 @@ exports.postsOnDelete = functions.firestore
 // const storage = new Storage();
 
 // Get a reference to the Cloud Vision API component
-const Vision = require('@google-cloud/vision');
-const vision = new Vision.ImageAnnotatorClient();
-const bucketName = 'timoshishi-bughub';
+// const Vision = require('@google-cloud/vision');
+// const vision = new Vision.ImageAnnotatorClient();
+// const bucketName = 'timoshishi-bughub';
 
-exports.imageTagger = functions.storage
-  .bucket(bucketName)
-  .object()
-  .onFinalize(async (event) => {
-    //file data
-    const object = event.data;
-    const filePath = object.name;
-    //location of saved file in bucket
-    const imageUri = `gs://${bucketName}/${filePath}`;
-    // firestore docID = filename
-    const docId = filePath.split('.jpg')[0];
-    const docRef = admin.firestore().collection('images').doc(docId);
+// exports.imageTagger = functions.storage
+//   .bucket(bucketName)
+//   .object()
+//   .onFinalize(async (event) => {
+//     //file data
+//     const object = event.data;
+//     const filePath = object.name;
+//     //location of saved file in bucket
+//     const imageUri = `gs://${bucketName}/${filePath}`;
+//     // firestore docID = filename
+//     const docId = filePath.split('.jpg')[0];
+//     const docRef = admin.firestore().collection('images').doc(docId);
 
-    const [textDetections] = await vision.textDetection(imageUri);
-    const [annotation] = textDetections.textAnnotations;
-    const bug = annotation ? annotation.description : '';
-    console.log('Extracted text from image:', bug);
-    console.info({ bug });
-    return docRef.set({ bug });
-  });
+//     const [textDetections] = await vision.textDetection(imageUri);
+//     const [annotation] = textDetections.textAnnotations;
+//     const bug = annotation ? annotation.description : '';
+//     console.log('Extracted text from image:', bug);
+//     console.info({ bug });
+//     return docRef.set({ bug });
+//   });
+
 /**   // try {
     //   console.info({ event });
     //   const object = event.data;

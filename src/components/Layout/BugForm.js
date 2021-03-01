@@ -46,9 +46,7 @@ const BugForm = () => {
       createdBy: user.uid,
       ...postData,
     };
-    if (!currentBug) {
-      createPost(newPost);
-    }
+    createPost(newPost);
     handleCancel();
   };
 
@@ -58,12 +56,18 @@ const BugForm = () => {
       let keywordArr = postData.keywords.length
         ? postData.keywords.split(',').map((word) => word.trim())
         : [];
-      await postsRef.doc().set({
+      const docId = currentBug ? currentBug.objectID : undefined;
+      console.log({ docId });
+      await postsRef.doc(docId).set({
         ...postData,
         keywords: keywordArr,
         imageUrls,
-        created: firebase.firestore.Timestamp.now().seconds,
+        created: !currentBug
+          ? firebase.firestore.Timestamp.now().seconds
+          : currentBug.created,
+        updated: firebase.firestore.Timestamp.now().seconds,
       });
+
       await console.log('created', postData);
     } catch (err) {
       console.error(err);
@@ -110,6 +114,7 @@ const BugForm = () => {
       });
       setImageUrls([...currentBug.imageUrls]);
     }
+    //eslint-disable-next-line
   }, [currentBug]);
 
   return (

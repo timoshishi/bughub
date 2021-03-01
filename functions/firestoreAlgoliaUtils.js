@@ -7,6 +7,7 @@ const postsIndex = client.initIndex('posts');
 async function saveDocumentInAlgolia(snapshot, uid) {
   if (snapshot.exists) {
     const record = snapshot.data();
+    console.info({ record });
     if (record) {
       record.objectID = uid;
       await postsIndex.saveObject(record);
@@ -19,7 +20,7 @@ async function updateDocumentInAlgolia(change, uid) {
    const docBeforeChange = change.before.data();
    const docAfterChange = change.after.data();
    */
-  await saveDocumentInAlgolia(change.after);
+  await saveDocumentInAlgolia(change.after, uid);
 }
 
 async function deleteDocumentFromAlgolia(snapshot, uid) {

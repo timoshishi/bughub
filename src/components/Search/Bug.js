@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AccordionDetails, Box, Paper, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 import { Highlight } from 'react-instantsearch-dom';
 
 const Bug = ({ hit, classes }) => {
