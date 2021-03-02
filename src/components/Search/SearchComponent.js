@@ -4,21 +4,24 @@ import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
 import BugAccordion from './BugAccordion';
 import { Box, Grid } from '@material-ui/core';
 import BugForm from '../Layout/BugForm';
-import { useSelector } from 'react-redux';
-import { selectRefresh } from '../../app/reducers/postSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectRefresh, toggleRefresh } from '../../app/reducers/postSlice';
 
 const SearchComponent = () => {
-  const [refresh, setRefresh] = useState(false);
-
-  // const refresh = useSelector(selectRefresh);
+  // const [refresh, setRefresh] = useState(false);
+  const dispatch = useDispatch();
+  const refresh = useSelector(selectRefresh);
   // console.log({ refresh });
 
+  // useEffect(() => {
+  //   const interval = setInterval(() => setRefresh(!refresh), 100);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // });
   useEffect(() => {
-    const interval = setInterval(() => setRefresh(!refresh), 100);
-    return () => {
-      clearInterval(interval);
-    };
-  });
+    dispatch(toggleRefresh(false));
+  }, [refresh]);
   return (
     <Grid container justify='flex-start' spacing={2}>
       <InstantSearch

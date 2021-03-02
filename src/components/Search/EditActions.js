@@ -14,7 +14,7 @@ const EditActions = ({ hit }) => {
       dispatch(toggleRefresh(true));
       await db.collection('posts').doc(hit.objectID).delete();
       await console.log('Post successfully deleted');
-      await dispatch(toggleRefresh(false));
+      // await dispatch(toggleRefresh(false));
     } catch (err) {
       console.error('deletePost', err);
     }
