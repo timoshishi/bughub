@@ -1,7 +1,7 @@
 import { db } from '../config/firebase';
 import firebase from 'firebase/app';
 
-export default {
+const firestoreService = {
   createOrUpdatePost: async function (postData, currentBug) {
     try {
       const postsRef = db.collection('posts');
@@ -17,4 +17,19 @@ export default {
       console.error(err);
     }
   },
+  deletePhoto: async function (fileName) {
+    const bucketName = 'timoshishi-bughub';
+    try {
+      const storage = firebase.storage();
+      const storageRef = storage.ref();
+      const imageRef = storageRef.child(fileName);
+
+      console.log({ imageRef });
+      await imageRef.delete();
+      console.log(`gs://${bucketName}/${fileName} deleted.`);
+    } catch (err) {
+      console.log('deletePhotoFromBucket', err);
+    }
+  },
 };
+export default firestoreService;

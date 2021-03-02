@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Box,
 } from '@material-ui/core';
+import { AddCircleOutlined } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
 import {
@@ -14,17 +15,13 @@ import {
   selectCurrentBug,
   toggleRefresh,
 } from '../../app/reducers/postSlice';
-// import { db } from '../../config/firebase';
-// import firebase from 'firebase/app';
 import firestoreService from '../../services/firestoreService.js';
-import { AddCircleOutlined } from '@material-ui/icons';
 import FormActionButtons from '../BugForm/FormActionButtons';
 import FormContent from '../BugForm/FormContent';
 
 const BugForm = () => {
   const user = useSelector(selectUser);
   const currentBug = useSelector(selectCurrentBug);
-
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
@@ -35,6 +32,7 @@ const BugForm = () => {
     solution: '',
     summary: '',
   });
+
   const handleFormData = (e) => {
     setPostData({
       ...postData,
@@ -60,22 +58,6 @@ const BugForm = () => {
     }
     handleCancel();
   };
-
-  // const createOrUpdatePost = async (postData, currentBug) => {
-  //   try {
-  //     const postsRef = db.collection('posts');
-  //     //check if current object to update and send to firestore
-  //     await postsRef.doc(currentBug?.docId).set({
-  //       ...postData,
-  //       created:
-  //         currentBug?.created || firebase.firestore.Timestamp.now().seconds,
-  //       updated: firebase.firestore.Timestamp.now().seconds,
-  //     });
-  //     await console.log('created', postData);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge, Grid, makeStyles } from '@material-ui/core';
+import firestoreService from '../../services/firestoreService.js';
+console.log({ firestoreService });
 
 const useStyles = makeStyles({
   thumbnail: {
@@ -13,9 +15,16 @@ const useStyles = makeStyles({
 });
 const UploadedImages = ({ imageUrls, setImageUrls }) => {
   const classes = useStyles();
-  const removeImage = (currentUrl) => {
-    const filtered = imageUrls.filter((url) => url !== currentUrl);
-    setImageUrls(filtered);
+
+  const removeImage = async (currentUrl) => {
+    try {
+      const fileName = currentUrl.split('o/')[1].split('?')[0];
+      await firestoreService.deletePhoto(fileName);
+      const filtered = imageUrls.filter((url) => url !== currentUrl);
+      setImageUrls(filtered);
+    } catch (err) {
+      console.error('removeImage', err);
+    }
   };
   return (
     <Grid
