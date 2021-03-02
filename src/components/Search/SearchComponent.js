@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import searchClient from '../../config/algolia';
 import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
 import BugAccordion from './BugAccordion';
@@ -8,19 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectRefresh, toggleRefresh } from '../../app/reducers/postSlice';
 
 const SearchComponent = () => {
-  // const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
   const refresh = useSelector(selectRefresh);
-  // console.log({ refresh });
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => setRefresh(!refresh), 100);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // });
   useEffect(() => {
     dispatch(toggleRefresh(false));
+    // eslint-disable-next-line
   }, [refresh]);
   return (
     <Grid container justify='flex-start' spacing={2}>

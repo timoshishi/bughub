@@ -9,14 +9,14 @@ import {
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../app/reducers/authSlice';
-import PropTypes from 'prop-types';
 import {
   clearCurrentBug,
   selectCurrentBug,
   toggleRefresh,
 } from '../../app/reducers/postSlice';
-import { db } from '../../config/firebase';
-import firebase from 'firebase/app';
+// import { db } from '../../config/firebase';
+// import firebase from 'firebase/app';
+import firestoreService from '../../services/firestoreService.js';
 import { AddCircleOutlined } from '@material-ui/icons';
 import FormActionButtons from '../BugForm/FormActionButtons';
 import FormContent from '../BugForm/FormContent';
@@ -43,40 +43,39 @@ const BugForm = () => {
   };
 
   const handleSubmit = async () => {
-    const newPost = {
-      imageUrls,
-      createdBy: user.uid,
-      ...postData,
-    };
-    await createPost(newPost);
+    try {
+      dispatch(toggleRefresh(true));
+      const newPost = {
+        ...postData,
+        imageUrls,
+        keywords: postData.keywords.length
+          ? postData.keywords.split(',').map((word) => word.trim())
+          : [],
+        createdBy: user.uid,
+      };
+      await firestoreService.createOrUpdatePost(newPost, currentBug);
+      await dispatch(toggleRefresh(false));
+    } catch (err) {
+      console.error('handleSubmit', err);
+    }
     handleCancel();
   };
 
-  const createPost = async (postData) => {
-    try {
-      const postsRef = db.collection('posts');
-      let keywordArr = postData.keywords.length
-        ? postData.keywords.split(',').map((word) => word.trim())
-        : [];
-      const docId = currentBug ? currentBug.objectID : undefined;
-      console.log({ docId });
-      await postsRef.doc(docId).set({
-        ...postData,
-        keywords: keywordArr,
-        imageUrls,
-        created: !currentBug
-          ? firebase.firestore.Timestamp.now().seconds
-          : currentBug.created,
-        updated: firebase.firestore.Timestamp.now().seconds,
-      });
-      dispatch(toggleRefresh(true));
-      dispatch(toggleRefresh(false));
-
-      await console.log('created', postData);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const createOrUpdatePost = async (postData, currentBug) => {
+  //   try {
+  //     const postsRef = db.collection('posts');
+  //     //check if current object to update and send to firestore
+  //     await postsRef.doc(currentBug?.docId).set({
+  //       ...postData,
+  //       created:
+  //         currentBug?.created || firebase.firestore.Timestamp.now().seconds,
+  //       updated: firebase.firestore.Timestamp.now().seconds,
+  //     });
+  //     await console.log('created', postData);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,10 +100,9 @@ const BugForm = () => {
     console.log('@handleCLose');
     dispatch(clearCurrentBug());
   };
-
+  // If a posted bug is set in state for editing, open modal and populate fields with bug data
   useEffect(() => {
     if (currentBug) {
-      console.log(Array.isArray(currentBug.keywords));
       setOpen(true);
       setPostData({
         createdBy: user.uid,
@@ -156,7 +154,5 @@ const BugForm = () => {
     </Box>
   );
 };
-
-BugForm.propTypes = {};
 
 export default BugForm;
